@@ -1,27 +1,34 @@
 // src/boot/firebase.ts
 import { boot } from 'quasar/wrappers'; // Import from Quasar for typing
 import { initializeApp, type FirebaseApp } from 'firebase/app';
-import { getAuth, type Auth } from 'firebase/auth';
+import { getAuth, type Auth, onAuthStateChanged, type User } from 'firebase/auth';
+
+import { ref, type App as VueApp } from 'vue'; // Import from Vue for reactivity
 
 // Your Firebase configuration (replace with your actual config)
 const firebaseConfig = {
-  apiKey: 'YOUR_API_KEY',
-  authDomain: 'YOUR_AUTH_DOMAIN',
-  projectId: 'YOUR_PROJECT_ID',
-  storageBucket: 'YOUR_STORAGE_BUCKET',
-  messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-  appId: 'YOUR_APP_ID',
+  apiKey: 'AIzaSyDIunbg6U_KrMT9IVZb3PC0n1CdnqAVs-Q',
+  authDomain: 'skgadi-online.firebaseapp.com',
+  databaseURL: 'https://skgadi-online.firebaseio.com',
+  projectId: 'skgadi-online',
+  storageBucket: 'skgadi-online.firebasestorage.app',
+  messagingSenderId: '548913744762',
+  appId: '1:548913744762:web:f7ae3e09cec59fec4e24c3',
 };
 
-const initializeFirebase = (): { app: FirebaseApp; auth: Auth } => {
-  const app: FirebaseApp = initializeApp(firebaseConfig);
-  const auth: Auth = getAuth(app);
-  return { app, auth };
-};
+const app: FirebaseApp = initializeApp(firebaseConfig);
+const auth: Auth = getAuth(app);
 
-const { auth } = initializeFirebase();
+const user = ref<User | null>(null); // Reactive ref for the user
 
-export default boot(({ app: quasarApp }) => {
-  // Attach auth to the global properties for easy access in components
-  quasarApp.config.globalProperties.$auth = auth; // e.g., this.$auth in components
+onAuthStateChanged(auth, (currentUser) => {
+  user.value = currentUser;
 });
+
+export default boot(({ app }: { app: VueApp }) => {
+  app.provide('auth', auth); // Provide auth for injection
+  app.provide('user', user); // Provide the reactive user ref
+});
+
+// Export for direct use if needed
+export { auth, user };
