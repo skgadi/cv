@@ -17,15 +17,19 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view :is-logged-in="isLoggedIn" :profile-doc="profileDoc" :user="user" />
     </q-page-container>
   </q-layout>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { type User } from 'firebase/auth'; // Import signIn and signOut
+import { computed, ref, inject, type Ref, watch } from 'vue';
 import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue';
 import AuthButton from 'components/AuthButton.vue';
+import { getProfileDocumentSnapshot } from 'src/services/firebase/profile-document';
+import { onSnapshot, type Unsubscribe } from 'firebase/firestore';
+import type { GSK_PROFILE } from 'src/services/library/types/profile';
 
 const linksList: EssentialLinkProps[] = [
   {
@@ -77,4 +81,40 @@ const leftDrawerOpen = ref(false);
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
+
+const user = inject<Ref<User | null>>('user'); // Inject with proper type
+if (!user) {
+  throw new Error('User ref not provided. Make sure the boot file is registered.');
+}
+const isLoggedIn = computed(() => {
+  return user.value !== null;
+});
+
+const snapshotUnSubscription = ref<Unsubscribe | null>(null);
+const profileDoc = ref<GSK_PROFILE | null>(null);
+
+watch(
+  () => user.value,
+  () => {
+    // remove previous subscription
+    if (snapshotUnSubscription.value) {
+      snapshotUnSubscription.value();
+      snapshotUnSubscription.value = null;
+    }
+    profileDoc.value = null;
+
+    if (user.value) {
+      const dbQ = getProfileDocumentSnapshot(user.value.uid);
+      if (!dbQ) {
+        console.log('No query snapshot found');
+        return;
+      }
+      snapshotUnSubscription.value = onSnapshot(dbQ, (profileDocumentSnapshot) => {
+        console.log('Profile document snapshot:', profileDocumentSnapshot);
+        profileDoc.value = (profileDocumentSnapshot.docs?.[0]?.data() as GSK_PROFILE) || null;
+      });
+    }
+  },
+  { immediate: true },
+);
 </script>

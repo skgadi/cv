@@ -4,6 +4,7 @@ import { initializeApp, type FirebaseApp } from 'firebase/app';
 import { getAuth, type Auth, onAuthStateChanged, type User } from 'firebase/auth';
 
 import { ref, type App as VueApp } from 'vue'; // Import from Vue for reactivity
+import { getFirestore } from 'firebase/firestore';
 
 // Your Firebase configuration (replace with your actual config)
 const firebaseConfig = {
@@ -18,6 +19,7 @@ const firebaseConfig = {
 
 const app: FirebaseApp = initializeApp(firebaseConfig);
 const auth: Auth = getAuth(app);
+const db = getFirestore(app);
 
 const user = ref<User | null>(null); // Reactive ref for the user
 
@@ -28,7 +30,8 @@ onAuthStateChanged(auth, (currentUser) => {
 export default boot(({ app }: { app: VueApp }) => {
   app.provide('auth', auth); // Provide auth for injection
   app.provide('user', user); // Provide the reactive user ref
+  app.provide('db', db); // Provide Firestore for injection
 });
 
 // Export for direct use if needed
-export { auth, user };
+export { auth, user, db };
