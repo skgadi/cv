@@ -11,8 +11,11 @@
       </template>
       <q-menu>
         <q-list>
-          <q-item clickable to="/profile">
+          <q-item v-if="isAdmin" clickable :to="{ name: 'profile' }">
             <q-item-section>My&nbsp;profile</q-item-section>
+          </q-item>
+          <q-item v-if="isAdmin" clickable :to="{ name: 'create' }">
+            <q-item-section>New element</q-item-section>
           </q-item>
           <q-item clickable @click="logout">
             <q-item-section>Logout</q-item-section>
@@ -26,6 +29,13 @@
   </div>
 </template>
 <script setup lang="ts">
+defineProps({
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 import { inject, type Ref } from 'vue';
 
 import { type User } from 'firebase/auth'; // Import signIn and signOut

@@ -9,6 +9,27 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'profile',
         component: () => import('pages/MyProfile.vue'),
+        name: 'profile',
+      },
+      {
+        path: 'view/:contentId?/:categoryId?',
+        component: () => import('pages/ViewPage.vue'),
+        name: 'view',
+      },
+      {
+        path: 'edit/:contentId?/:categoryId?',
+        component: () => import('pages/EditPage.vue'),
+        name: 'edit',
+      },
+      {
+        path: 'create',
+        component: () => import('pages/CreatePage.vue'),
+        name: 'create',
+      },
+      {
+        path: 'category/:categoryId?',
+        component: () => import('pages/CategoryPage.vue'),
+        name: 'category',
       },
     ],
   },

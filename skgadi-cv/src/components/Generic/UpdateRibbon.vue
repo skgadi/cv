@@ -12,7 +12,6 @@
         :value="100"
         :color="!appUpdateStore.isUpdateFinished ? 'warning' : 'positive'"
       />
-
       <q-card-section class="row items-center no-wrap">
         <div>
           <div class="text-weight-bold">A new update is available!</div>

@@ -5,8 +5,9 @@ export const login = async (): Promise<void> => {
   if (!auth) return; // Safety check
   try {
     const provider = new GoogleAuthProvider(); // Create a Google provider
-    const result = await signInWithPopup(auth, provider); // Perform sign-in
-    console.log('Logged in:', result.user);
+    //const result =
+    await signInWithPopup(auth, provider); // Perform sign-in
+    //console.log('Logged in:', result.user);
     // The user ref should update automatically via onAuthStateChanged
   } catch (error) {
     console.error('Login error:', error);

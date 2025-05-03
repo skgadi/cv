@@ -31,17 +31,19 @@ export async function getProfileDocument(userId: string) {
   }
 }
 
-export function getProfileDocumentSnapshot(userId: string) {
+export function getProfileDocumentSnapshot(userId: string, checkLogin = true) {
   try {
-    // Check if the user is logged in or not.
-    if (isLoggedIn()) {
-      const cvCollection = collection(db, 'CV');
-      const q = query(cvCollection, where('uid', '==', userId));
-      return q;
-    } else {
-      console.log('User is not logged in');
-      return null;
+    if (checkLogin) {
+      // Check if the user is logged in or not.
+      if (!isLoggedIn()) {
+        console.log('User is not logged in');
+        return null;
+      }
     }
+    // If the user is logged in, proceed to get the document snapshot
+    const cvCollection = collection(db, 'CV');
+    const q = query(cvCollection, where('uid', '==', userId));
+    return q;
   } catch (error) {
     console.error('Error fetching profile document:', error);
     throw error;

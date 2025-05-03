@@ -1,7 +1,4 @@
-<template>
-  <q-page class="row items-center justify-evenly">Hi</q-page>
-</template>
-
+<template>VIEW PAGE</template>
 <script setup lang="ts">
 defineProps({
   isLoggedIn: {

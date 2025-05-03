@@ -7,6 +7,16 @@ export interface GSK_PROFILE {
   nationalities: string[];
   date_of_birth: string;
   affiliations: string[];
+  categories?: GSK_CATEGORY[];
+}
+
+export interface GSK_CATEGORY {
+  id: string;
+  name: string;
+  icon: string;
+  bgColor: string;
+  fgColor: string;
+  desc: string;
 }
 
 export interface GSK_PROFILE_EMAIL {

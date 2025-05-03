@@ -1,131 +1,127 @@
 <template>
-  <q-page class="q-pa-md">
-    <q-card class="my-card">
-      <q-card-section>
-        <div class="text-h6">My Profile</div>
-        <div class="q-mt-md">
-          <p v-if="isLoggedIn">Welcome, {{ userName }}!</p>
-          <p v-else>Please log in to view your profile.</p>
-        </div>
-      </q-card-section>
+  <q-card-section>
+    <div class="text-h6">My Profile</div>
+    <div class="q-mt-md">
+      <p v-if="isLoggedIn">Welcome, {{ userName }}!</p>
+      <p v-else>Please log in to view your profile.</p>
+    </div>
+  </q-card-section>
 
-      <q-separator />
+  <q-separator />
 
-      <q-card-section v-if="isLoggedIn">
-        <template v-if="profileDoc">
-          <q-markup-table flat bordered>
-            <tbody>
-              <tr>
-                <td>Full name</td>
-                <td>{{ profileDoc.name }}</td>
-                <td class="text-right">
-                  <q-btn
-                    outline
-                    round
-                    icon="edit"
-                    size="md"
-                    dense
-                    @click="editElement(profileDoc.name, 'name')"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Date of birth</td>
-                <td>{{ profileDoc.date_of_birth }}</td>
-                <td class="text-right">
-                  <q-btn
-                    outline
-                    round
-                    icon="edit"
-                    size="md"
-                    dense
-                    @click="editElement(profileDoc.date_of_birth, 'date_of_birth')"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Email</td>
-                <td>
-                  <list-array :in-array="profileDoc?.emails || []" />
-                </td>
-                <td class="text-right">
-                  <q-btn
-                    outline
-                    round
-                    icon="edit"
-                    size="md"
-                    dense
-                    @click="editElement(profileDoc.emails, 'emails')"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Phone</td>
-                <td>{{ profileDoc?.phones?.join('; ') }}</td>
-                <td class="text-right">
-                  <q-btn
-                    outline
-                    round
-                    icon="edit"
-                    size="md"
-                    dense
-                    @click="editElement(profileDoc.phones, 'phones')"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Address</td>
-                <td>{{ profileDoc?.addresses?.join('; ') }}</td>
-                <td class="text-right">
-                  <q-btn
-                    outline
-                    round
-                    icon="edit"
-                    size="md"
-                    dense
-                    @click="editElement(profileDoc.addresses, 'addresses')"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Nationality</td>
-                <td>{{ profileDoc?.nationalities?.join('; ') }}</td>
-                <td class="text-right">
-                  <q-btn
-                    outline
-                    round
-                    icon="edit"
-                    size="md"
-                    dense
-                    @click="editElement(profileDoc.nationalities, 'nationalities')"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </q-markup-table>
-        </template>
-        <template v-else>
-          <p>No profile data available.</p>
-          <q-btn
-            outline
-            rounded
-            no-caps
-            color="positive"
-            label="Create your new profile"
-            icon="add"
-            @click="createANewProfile"
-          />
-        </template>
-      </q-card-section>
+  <q-card-section v-if="isLoggedIn">
+    <template v-if="profileDoc">
+      <q-markup-table flat bordered>
+        <tbody>
+          <tr>
+            <td>Full name</td>
+            <td>{{ profileDoc.name }}</td>
+            <td class="text-right">
+              <q-btn
+                flat
+                round
+                icon="edit"
+                size="md"
+                dense
+                @click="editElement(profileDoc.name, 'name')"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Date of birth</td>
+            <td>{{ profileDoc.date_of_birth }}</td>
+            <td class="text-right">
+              <q-btn
+                flat
+                round
+                icon="edit"
+                size="md"
+                dense
+                @click="editElement(profileDoc.date_of_birth, 'date_of_birth')"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>
+              <list-array :in-array="profileDoc?.emails || []" />
+            </td>
+            <td class="text-right">
+              <q-btn
+                flat
+                round
+                icon="edit"
+                size="md"
+                dense
+                @click="editElement(profileDoc.emails, 'emails')"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Phone</td>
+            <td>{{ profileDoc?.phones?.join('; ') }}</td>
+            <td class="text-right">
+              <q-btn
+                flat
+                round
+                icon="edit"
+                size="md"
+                dense
+                @click="editElement(profileDoc.phones, 'phones')"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>{{ profileDoc?.addresses?.join('; ') }}</td>
+            <td class="text-right">
+              <q-btn
+                flat
+                round
+                icon="edit"
+                size="md"
+                dense
+                @click="editElement(profileDoc.addresses, 'addresses')"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Nationality</td>
+            <td>{{ profileDoc?.nationalities?.join('; ') }}</td>
+            <td class="text-right">
+              <q-btn
+                flat
+                round
+                icon="edit"
+                size="md"
+                dense
+                @click="editElement(profileDoc.nationalities, 'nationalities')"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+    </template>
+    <template v-else>
+      <p>No profile data available.</p>
+      <q-btn
+        outline
+        rounded
+        no-caps
+        color="positive"
+        label="Create your new profile"
+        icon="add"
+        @click="createANewProfile"
+      />
+    </template>
+  </q-card-section>
 
-      <q-separator />
+  <q-separator />
 
-      <q-card-actions>
-        <q-btn v-if="isLoggedIn" flat label="Logout" color="negative" @click="logout" />
-        <q-btn v-if="!isLoggedIn" flat label="Login" color="primary" @click="login" />
-      </q-card-actions>
-    </q-card>
-  </q-page>
+  <q-card-actions>
+    <q-btn v-if="isLoggedIn" flat label="Logout" color="negative" @click="logout" />
+    <q-btn v-if="!isLoggedIn" flat label="Login" color="primary" @click="login" />
+  </q-card-actions>
   <main-editor
     v-model:showDialog="showDialog"
     v-model:inputModel="elementToEditValue"
@@ -149,6 +145,10 @@ const props = defineProps({
     type: Object as PropType<User>,
     required: false,
     default: () => ({}),
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
   },
 });
 
