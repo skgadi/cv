@@ -1,15 +1,18 @@
 <template>
   <div>
-    <VueDraggable ref="el" v-model="inArray">
+    <VueDraggable ref="el" v-model="inArray" :animation="200" :handle="'.drag-handle'">
       <div v-for="(item, idx) in inArray" :key="idx">
         <q-separator v-if="idx !== 0" class="q-mb-sm" color="grey-3" style="width: 100%" />
-        <div class="row">
+        <div class="row items-center">
+          <div class="col-auto drag-handle">
+            <q-icon class="q-mr-sm" name="mdi-drag" style="cursor: move" />
+          </div>
           <div class="col">
             {{ item }}
           </div>
           <div class="col-auto">
             <q-btn
-              class="q-mr-sm"
+              class="q-mx-sm"
               round
               dense
               flat

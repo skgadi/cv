@@ -11,11 +11,11 @@
       </template>
       <q-menu>
         <q-list>
-          <q-item v-if="isAdmin" clickable :to="{ name: 'profile' }">
-            <q-item-section>My&nbsp;profile</q-item-section>
-          </q-item>
           <q-item v-if="isAdmin" clickable :to="{ name: 'create' }">
             <q-item-section>New element</q-item-section>
+          </q-item>
+          <q-item v-if="isAdmin" clickable :to="{ name: 'profile' }">
+            <q-item-section>My&nbsp;profile</q-item-section>
           </q-item>
           <q-item clickable @click="logout">
             <q-item-section>Logout</q-item-section>

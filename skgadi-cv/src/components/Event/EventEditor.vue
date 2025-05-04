@@ -1,7 +1,7 @@
 <template>
   <template v-if="isAdmin">
     <q-card-section style="height: 100%">
-      <div style="max-width: 500px; margin: auto">
+      <div>
         <q-input
           v-model="event.title"
           label="Title"
@@ -10,7 +10,6 @@
           class="q-mb-md"
           :autofocus="true"
           :clearable="true"
-          :rules="[(val) => !!val || 'Title is required']"
         />
         <q-input
           v-model="event.description"
@@ -33,10 +32,10 @@
         </div>
         <get-date-time icon="las la-chevron-left" v-model="event.endDate" />
         <categories-for-editor v-model="event.categories" :profile-doc="profileDoc" />
-        <div class="text-h6">Content</div>
+        <event-content-editor v-model="event.content" :profile-doc="profileDoc" />
       </div>
     </q-card-section>
-    <event-viewer-dialog v-model="previewEvent" :event="event" :profile-doc="profileDoc" />
+
     <q-card-actions>
       <q-btn
         no-caps
@@ -47,6 +46,7 @@
         @click="previewEvent = !previewEvent"
       />
     </q-card-actions>
+    <event-viewer-dialog v-model="previewEvent" :event="event" :profile-doc="profileDoc" />
   </template>
   <template v-else>
     <q-card-section>
@@ -75,6 +75,7 @@ defineProps({
 import GetDateTime from 'components/Generic/GetDateTime.vue';
 import CategoriesForEditor from 'components/Category/CategoriesForEditor.vue';
 import EventViewerDialog from 'components/Event/EventViewerDialog.vue';
+import EventContentEditor from 'components/Event/EventContentEditor.vue';
 
 import type { GSK_EVENT } from 'src/services/library/types/events';
 import { type PropType, ref } from 'vue';

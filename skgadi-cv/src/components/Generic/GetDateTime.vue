@@ -22,13 +22,18 @@
     <div class="col-auto">
       <q-btn color="primary" flat icon="las la-globe-americas" round>
         <q-menu>
-          <q-select
-            v-model="selectedTimeZon"
-            :options="importantTimeZones"
-            label="Select Time Zone"
-            emit-value
-            map-options
-          />
+          <div style="min-width: 300px">
+            <q-select
+              class="q-ma-md"
+              outlined
+              rounded
+              v-model="selectedTimeZon"
+              :options="importantTimeZones"
+              label="Select Time Zone"
+              emit-value
+              map-options
+            />
+          </div>
         </q-menu>
       </q-btn>
     </div>
@@ -45,7 +50,7 @@
       <q-btn color="primary" flat icon="las la-clock" round>
         <q-menu>
           <div class="q-gutter-md row items-start">
-            <q-time v-model="selectedTime" format24h />
+            <q-time v-model="selectedTime" format24h with-seconds />
           </div>
         </q-menu>
       </q-btn>
@@ -65,7 +70,7 @@ defineProps({
 
 import ShowDateWithIcon from 'components/Generic/ShowDateWithIcon.vue';
 
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import moment from 'moment-timezone';
 
 const importantTimeZones = [
@@ -109,8 +114,8 @@ const importantTimeZones = [
 ];
 
 const selectedTimeZon = ref('America/Mexico_City');
-const selectedDate = ref(moment().format('YYYY/MM/DD'));
-const selectedTime = ref(moment().format('HH:mm:ss'));
+const selectedDate = ref(moment(dateTime.value).format('YYYY/MM/DD'));
+const selectedTime = ref(moment(dateTime.value).format('HH:mm:ss'));
 
 watch([selectedDate, selectedTime, selectedTimeZon], () => {
   setDate();
@@ -143,4 +148,24 @@ watch(dateTimeText, () => {
     console.error('Error parsing dateTimeText:', error);
   }
 });
+
+onMounted(() => {
+  setValuesFromDateTimeToLocals();
+});
+
+const setValuesFromDateTimeToLocals = () => {
+  selectedTimeZon.value = moment.tz.guess();
+  selectedDate.value = moment(dateTime.value).format('YYYY/MM/DD');
+  selectedTime.value = moment(dateTime.value).format('HH:mm:ss');
+};
+
+watch(
+  () => dateTime.value,
+  (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+      setValuesFromDateTimeToLocals();
+    }
+  },
+  { immediate: true, deep: true },
+);
 </script>

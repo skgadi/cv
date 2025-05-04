@@ -15,8 +15,10 @@ export interface GSK_EVENT_CONTENT {
   title: string;
   description: string;
   type:
-    | 'md'
+    | 'markdown'
     | 'html'
+    | 'rich-text'
+    | 'text'
     | 'pdf'
     | 'code-snippet'
     | 'download'
@@ -30,10 +32,8 @@ export interface GSK_EVENT_CONTENT {
     | 'video'
     | 'audio'
     | 'link'
-    | 'text'
     | 'bibtex-one'
     | 'bibtex-multiple'
-    | 'markdown'
     | 'latex';
   content: string;
 }
