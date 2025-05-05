@@ -1,7 +1,7 @@
 <template>
   <q-splitter
     v-model="splitterModel"
-    style="height: calc(50vh + 80px + 36px + 4px); border: 1px solid; border-radius: 20px"
+    style="height: calc(75vh); border: 1px solid #e0e0e0; border-radius: 20px"
   >
     <template v-slot:before>
       <div class="column" style="width: 100%">
@@ -10,17 +10,9 @@
             <div class="row items-center justify-evenly">
               <div class="col">
                 <div class="column">
-                  <q-input
-                    v-model="eventToEdit.title"
-                    label="Title"
-                    rounded
-                    dense
-                    outlined
-                    :autofocus="true"
-                  />
                   <q-select
                     v-model="eventToEdit.type"
-                    :options="evenContentTypes"
+                    :options="selectorOptions"
                     label="Content Type"
                     outlined
                     rounded
@@ -29,19 +21,26 @@
                     dense
                     emit-value
                     map-options
+                    :autofocus="true"
                   />
+                  <q-input v-model="eventToEdit.icon" label="Icon" rounded dense outlined>
+                    <template v-slot:prepend>
+                      <q-icon :name="eventToEdit.icon" />
+                    </template>
+                  </q-input>
                 </div>
               </div>
               <div class="col">
-                <q-input
-                  v-model="eventToEdit.description"
-                  label="Description"
-                  rounded
-                  dense
-                  outlined
-                  type="textarea"
-                  rows="3"
-                />
+                <div class="column">
+                  <q-input v-model="eventToEdit.title" label="Title" rounded dense outlined />
+                  <q-input
+                    v-model="eventToEdit.description"
+                    label="Description"
+                    rounded
+                    dense
+                    outlined
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -109,21 +108,21 @@ const cancelEdit = () => {
 
 const splitterModel = ref(50);
 
-// Custom filter function with a more specific type
-const filterFn = (
-  val: string,
-  doneFn: (callback: () => typeof evenContentTypes, afterFn?: (ref: QSelect) => void) => void, // Changed any[] to Option[]
-) => {
+const selectorOptions = ref(evenContentTypes);
+
+//type OptionsType = typeof evenContentTypes;
+function filterFn(val: string, update: (arg0: { (): void; (): void }) => void) {
   if (val === '') {
-    // If input is empty, return all options
-    doneFn(() => evenContentTypes); // evenContentTypes.value is now typed as Option[]
-  } else {
-    const needle = val.toLowerCase(); // Case-insensitive search
-    const filtered: typeof evenContentTypes = evenContentTypes.filter(
-      (option) => option.label.toLowerCase().includes(needle), // Filter based on 'label' property
-    );
-    doneFn(() => filtered); // Callback returns an array of Option[]
+    update(() => {
+      selectorOptions.value = evenContentTypes;
+    });
+    return;
   }
-  // No need to call abortFn unless you want to abort the process
-};
+  update(() => {
+    const needle = val.toLowerCase();
+    selectorOptions.value = evenContentTypes.filter(
+      (v) => v.label.toLowerCase().indexOf(needle) > -1,
+    );
+  });
+}
 </script>

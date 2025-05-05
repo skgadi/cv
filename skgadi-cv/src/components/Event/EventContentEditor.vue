@@ -13,11 +13,8 @@
     :animation="200"
     :handle="'.drag-handle'"
   >
-    <div v-for="(item, idx) in allEvents" :key="idx">
+    <div class="q-pa-sm q-gutter-sm" v-for="(item, idx) in allEvents" :key="idx">
       <div class="row items-top">
-        <div class="col-auto drag-handle">
-          <q-icon class="q-mr-sm" name="mdi-drag" style="cursor: move" />
-        </div>
         <div class="col">
           <edit-event-element
             v-if="editItem?.id === item.id"
@@ -25,11 +22,11 @@
             @save="saveItem"
             @cancel="cancelEdit"
           />
-          <show-event-element v-else :in-event="item" />
+          <show-event-element v-else :in-event="item" :default-open="false" />
         </div>
         <div class="col-auto" v-if="editItem?.id !== item.id">
           <q-btn
-            class="q-mx-sm"
+            class="q-mx-sm q-my-xs"
             round
             dense
             flat
@@ -41,6 +38,7 @@
             round
             dense
             flat
+            color="red"
             icon="delete"
             @click="() => allEvents.splice(idx, 1)"
           />
@@ -73,16 +71,18 @@ import { uid } from 'quasar';
 const addContent = (isBottom: boolean) => {
   const elementToAdd: GSK_EVENT_CONTENT = {
     type: 'markdown',
+    icon: 'las la-haykal',
     content: '',
-    description: '',
+    description: 'Caption',
     id: uid(),
-    title: '',
+    title: 'Title',
   };
   if (isBottom) {
     allEvents.value.push(elementToAdd);
   } else {
     allEvents.value.unshift(elementToAdd);
   }
+  editItem.value = JSON.parse(JSON.stringify(elementToAdd));
 };
 
 const editItem = ref<GSK_EVENT_CONTENT | null>(null);

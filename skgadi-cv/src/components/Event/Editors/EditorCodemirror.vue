@@ -3,8 +3,7 @@
   <codemirror
     v-model="textToEdit"
     placeholder="Code goes here..."
-    :style="{ height: '50vh', width: '100%' }"
-    :autofocus="true"
+    :style="{ height: 'calc(75vh - 80px - 36px - 4px )', width: '100%' }"
     :indent-with-tab="true"
     :tab-size="2"
     :extensions="extensions"

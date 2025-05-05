@@ -13,6 +13,7 @@ export interface GSK_EVENT {
 export interface GSK_EVENT_CONTENT {
   id: string;
   title: string;
+  icon: string;
   description: string;
   type:
     | 'markdown'
