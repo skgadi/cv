@@ -6,7 +6,8 @@
   </template>
   <viewer-pdf v-if="inEvent.type === 'pdf'" :pdf-url = "inEvent.content" />
   <viewer-code v-if="inEvent.type === 'code-snippet'" :inEvent = "inEvent" />
-  
+  <viewer-google-drive-element v-if="inEvent.type === 'google-drive-element'" :url = "inEvent.content" />
+
 </template>
 <script setup lang="ts">
 defineProps({
@@ -22,4 +23,5 @@ import ViewerHtml from 'components/Event/Viewers/ViewerHtml.vue';
 import ViewerMarkdown from 'components/Event/Viewers/ViewerMarkdown.vue';
 import ViewerPdf from 'components/Event/Viewers/ViewerPdf.vue';
 import ViewerCode from 'components/Event/Viewers/ViewerCode.vue';
+import ViewerGoogleDriveElement from 'components/Event/Viewers/ViewerGoogleDriveElement.vue';
 </script>

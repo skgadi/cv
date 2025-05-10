@@ -5,7 +5,6 @@ export const evenContentTypes = [
   { value: 'text', label: 'Text' },
   { value: 'pdf', label: 'PDF' },
   { value: 'code-snippet', label: 'Code Snippet' },
-  { value: 'download', label: 'Download' },
   { value: 'google-drive-element', label: 'Google Drive Element' },
   { value: 'google-form', label: 'Google Form' },
   { value: 'google-map', label: 'Google Map' },

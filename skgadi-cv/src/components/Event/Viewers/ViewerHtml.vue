@@ -1,5 +1,7 @@
 <template>
-  <div v-html="htmlText" />
+  <div class="q-pa-sm">
+    <div v-html="htmlText" />
+  </div>
 </template>
 <script setup lang="ts">
 defineProps({
