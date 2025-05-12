@@ -160,6 +160,7 @@ import { type User } from 'firebase/auth';
 import { login, logout } from 'src/services/firebase/auth'; // Import login and logout functions
 import type { GSK_PROFILE } from 'src/services/library/types/profile';
 import { setProfileDocument } from 'src/services/firebase/profile-document';
+import { uid } from 'quasar';
 
 const userName = computed(() => {
   if (props.isLoggedIn && props.user) {
@@ -170,6 +171,7 @@ const userName = computed(() => {
 
 const elementToEditValue = ref<string | number | Array<string> | null>(null);
 const elementToEditName = ref<keyof GSK_PROFILE | null>(null);
+
 const showDialog = ref(false);
 
 const editElement = (element: string | number | Array<string>, elementId: keyof GSK_PROFILE) => {
@@ -199,6 +201,7 @@ const submitChange = async () => {
 
 const newProfile: GSK_PROFILE = {
   name: '',
+  id: uid(),
   emails: [],
   phones: [],
   addresses: [],

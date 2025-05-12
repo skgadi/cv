@@ -1,11 +1,11 @@
 <template>
   <div style="height: calc(75vh - 58px); width: 100%">
-    <object :data="previewUrl" width="100%" height="100%"></object>
+    <object :data="formUrl" width="100%" height="100%"></object>
   </div>
 </template>
 
 <script setup lang="ts">
-import { driveLinkToPreviewLink } from 'src/services/generic/gDrive';
+import { driveLinkToFormShareLink } from 'src/services/generic/gDrive';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -15,8 +15,8 @@ const props = defineProps({
   },
 });
 
-const previewUrl = computed(() => {
-  const url = driveLinkToPreviewLink(props.url);
+const formUrl = computed(() => {
+  const url = driveLinkToFormShareLink(props.url);
   return url;
 });
 </script>

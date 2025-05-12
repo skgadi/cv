@@ -1,4 +1,5 @@
 export interface GSK_PROFILE {
+  id: string;
   uid: string;
   name: string;
   emails: string[];

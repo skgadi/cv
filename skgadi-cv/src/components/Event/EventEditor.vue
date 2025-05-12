@@ -37,14 +37,23 @@
     </q-card-section>
 
     <q-card-actions>
-      <q-btn
-        no-caps
-        flat
-        :label="previewEvent ? 'Hide Preview' : 'Show Preview'"
-        :icon="previewEvent ? 'las la-eye-slash' : 'las la-eye'"
-        class="full-width"
-        @click="previewEvent = !previewEvent"
-      />
+      <div class="row items-center justify-evenly full-width">
+        <q-btn
+          no-caps
+          flat
+          :label="previewEvent ? 'Hide Preview' : 'Show Preview'"
+          :icon="previewEvent ? 'las la-eye-slash' : 'las la-eye'"
+          @click="previewEvent = !previewEvent"
+        />
+        <q-btn
+          no-caps
+          flat
+          label="Save"
+          color="positive"
+          icon="las la-save"
+          @click="saveEventToDb"
+        />
+      </div>
     </q-card-actions>
     <event-viewer-dialog v-model="previewEvent" :event="event" :profile-doc="profileDoc" />
   </template>
@@ -61,7 +70,7 @@
 <script setup lang="ts">
 const event = defineModel<GSK_EVENT>({ required: true });
 
-defineProps({
+const props = defineProps({
   isAdmin: {
     type: Boolean,
     default: false,
@@ -80,6 +89,24 @@ import EventContentEditor from 'components/Event/EventContentEditor.vue';
 import type { GSK_EVENT } from 'src/services/library/types/events';
 import { type PropType, ref } from 'vue';
 import type { GSK_PROFILE } from 'src/services/library/types/profile';
+import { Notify, uid } from 'quasar';
+import { createOrUpdateEvent } from 'src/services/firebase/event-update';
 
 const previewEvent = ref(false);
+
+const saveEventToDb = async () => {
+  try {
+    const uidOfElement = event.value.id || uid();
+    const eventToSave = JSON.parse(JSON.stringify(event.value));
+    eventToSave.id = uidOfElement;
+    await createOrUpdateEvent(eventToSave, props.profileDoc.id, props.isAdmin);
+  } catch (error) {
+    Notify.create({
+      type: 'negative',
+      message: 'Error saving event. Please try again.',
+      icon: 'las la-exclamation-triangle',
+    });
+    console.error('Error saving event:', error);
+  }
+};
 </script>

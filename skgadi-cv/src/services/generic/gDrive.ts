@@ -27,19 +27,6 @@ export const driveLinkToPreviewLink = (link: string): string => {
 };
 
 /**
- * Converts a Google Drive URL to a direct download link.
- * @param link The Google Drive URL
- * @returns A download URL (e.g., https://drive.google.com/uc?export=download&id=ID) or the original link if invalid
- */
-export const driveLinkToFileDownload = (link: string): string => {
-  const match = link.match(DRIVE_REGEX);
-  if (match && match[1]) {
-    return `https://drive.google.com/uc?export=download&id=${match[1]}`;
-  }
-  return link;
-};
-
-/**
  * Converts a Google Drive URL to a shareable link.
  * @param link The Google Drive URL
  * @returns A shareable URL (e.g., https://drive.google.com/file/d/ID/view) or the original link if invalid
@@ -73,6 +60,55 @@ export const driveLinkToFileOpenLink = (link: string): string => {
   const match = link.match(DRIVE_REGEX);
   if (match && match[1]) {
     return `https://drive.google.com/open?id=${match[1]}`;
+  }
+  return link;
+};
+
+/**
+ * Converts a Google Forms URL to a shareable link.
+ * @param link The Google Forms URL
+ * @returns A shareable URL (e.g., https://docs.google.com/forms/d/ID/viewform) or the original link if invalid
+ * */
+export const driveLinkToFormShareLink = (link: string): string => {
+  const match = link.match(DRIVE_REGEX);
+  if (match && match[1]) {
+    return `https://docs.google.com/forms/d/${match[1]}/viewform`;
+  }
+  return link;
+};
+/**
+ * Converts a Google Forms URL to a preview link.
+ * @param link The Google Forms URL
+ * @returns A preview URL (e.g., https://docs.google.com/forms/d/ID/preview) or the original link if invalid
+ * */
+export const driveLinkToFormPreviewLink = (link: string): string => {
+  const match = link.match(DRIVE_REGEX);
+  if (match && match[1]) {
+    return `https://docs.google.com/forms/d/${match[1]}/preview`;
+  }
+  return link;
+};
+/**
+ * Converts a Google Forms URL to a shareable edit link.
+ * @param link The Google Forms URL
+ * @returns A shareable edit URL (e.g., https://docs.google.com/forms/d/ID/edit) or the original link if invalid
+ * */
+export const driveLinkToFormEditLink = (link: string): string => {
+  const match = link.match(DRIVE_REGEX);
+  if (match && match[1]) {
+    return `https://docs.google.com/forms/d/${match[1]}/edit`;
+  }
+  return link;
+};
+/**
+ * Converts a Google Forms URL to a shareable link with the "open" action.
+ * @param link The Google Forms URL
+ * @returns A shareable URL (e.g., https://docs.google.com/forms/d/ID/open) or the original link if invalid
+ * */
+export const driveLinkToFormOpenLink = (link: string): string => {
+  const match = link.match(DRIVE_REGEX);
+  if (match && match[1]) {
+    return `https://docs.google.com/forms/d/${match[1]}/open`;
   }
   return link;
 };

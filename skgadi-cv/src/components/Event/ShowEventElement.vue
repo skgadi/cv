@@ -33,15 +33,6 @@
           >
             <q-item-section>{{ menu.label }}</q-item-section>
           </q-item>
-          <q-item clickable v-close-popup @click="copyText(inEvent.title)">
-            <q-item-section>Copy title</q-item-section>
-          </q-item>
-          <q-item clickable v-close-popup @click="copyText(inEvent.description)">
-            <q-item-section>Copy description</q-item-section>
-          </q-item>
-          <q-item clickable v-close-popup @click="copyText(inEvent.content)">
-            <q-item-section>Copy raw content</q-item-section>
-          </q-item>
         </q-list>
       </q-menu>
     </template>
@@ -68,7 +59,11 @@ import ViewerIndex from 'components/Event/Viewers/ViewerIndex.vue';
 
 import { evenContentTypes } from 'src/services/library/constants/events';
 import { copyText } from 'src/services/generic/utils';
-import { driveLinkToFileShareLink, driveLinkToPreviewLink } from 'src/services/generic/gDrive';
+import {
+  driveLinkToFileShareLink,
+  driveLinkToPreviewLink,
+  driveLinkToFormEditLink,
+} from 'src/services/generic/gDrive';
 
 const contentType = computed(() => {
   const type = evenContentTypes.find((type) => type.value === props.inEvent.type);
@@ -106,7 +101,7 @@ const menuItems = computed(() => {
       },
     });
   }
-  if (props.inEvent.type === 'google-drive-element') {
+  if (props.inEvent.type === 'google-drive-element' || props.inEvent.type === 'google-form') {
     allItems.push(
       {
         label: 'Copy Google Drive link (preview)',
@@ -131,6 +126,15 @@ const menuItems = computed(() => {
         },
       },
     );
+  }
+  if (props.inEvent.type === 'google-form') {
+    allItems.push({
+      label: 'Open in Google Form (Edit)',
+      action: () => {
+        const url = driveLinkToFormEditLink(props.inEvent.content);
+        window.open(url, '_blank');
+      },
+    });
   }
   return allItems;
 });

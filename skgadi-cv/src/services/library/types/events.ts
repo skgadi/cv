@@ -7,6 +7,9 @@ export interface GSK_EVENT {
   lastUpdated: Date;
   createdDate: Date;
   categories: string[];
+  isPublic: boolean;
+  isFeatured: boolean;
+  priority: number;
   content: GSK_EVENT_CONTENT[];
 }
 
@@ -25,16 +28,13 @@ export interface GSK_EVENT_CONTENT {
     | 'download'
     | 'google-drive-element'
     | 'google-form'
-    | 'google-map'
-    | 'geoJSON'
+    | 'iframe'
     | 'youtube'
     | 'youtube-playlist'
     | 'image'
     | 'video'
     | 'audio'
     | 'link'
-    | 'bibtex-one'
-    | 'bibtex-multiple'
-    | 'latex';
+    | 'bibtex';
   content: string;
 }

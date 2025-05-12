@@ -51,26 +51,29 @@
         </div>
         <div class="col" style="width: 100%">
           <div class="row items-center justify-evenly">
-            <q-btn
-              flat
-              rounded
-              class="q-mr-sm"
-              icon="las la-save"
-              no-caps
-              label="Save"
-              color="primary"
-              @click="updateEvent"
-            />
-            <q-btn
-              flat
-              rounded
-              class="q-mr-sm"
-              icon="las la-times"
-              no-caps
-              label="Cancel"
-              color="negative"
-              @click="cancelEdit"
-            />
+            <div class="col">
+              <q-btn
+                flat
+                icon="las la-save"
+                no-caps
+                class="full-width"
+                label="Save"
+                color="primary"
+                style="border-bottom-left-radius: 16px"
+                @click="updateEvent"
+              />
+            </div>
+            <div class="col">
+              <q-btn
+                flat
+                icon="las la-times"
+                no-caps
+                class="full-width"
+                label="Cancel"
+                color="negative"
+                @click="cancelEdit"
+              />
+            </div>
           </div>
         </div>
       </div>

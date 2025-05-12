@@ -59,13 +59,14 @@ const profileDoc = ref<GSK_PROFILE | null>(null);
 const GSK_UID = 'AArSiXuAWEWjDqpHqEWohgoW64A3';
 
 const loadProfileWithUid = (uid: string) => {
-  console.log('Loading profile with UID:', uid);
+  //console.log('Loading profile with UID:', uid);
   const dbQ = getProfileDocumentSnapshot(uid, false);
   if (!dbQ) {
     console.log('No query snapshot found');
     return;
   }
   snapshotUnSubscription.value = onSnapshot(dbQ, (profileDocumentSnapshot) => {
+    //console.log('Profile document snapshot:', profileDocumentSnapshot.docs?.[0]);
     profileDoc.value = (profileDocumentSnapshot.docs?.[0]?.data() as GSK_PROFILE) || null;
   });
 };
