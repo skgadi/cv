@@ -86,7 +86,7 @@ import CategoriesForEditor from 'components/Category/CategoriesForEditor.vue';
 import EventViewerDialog from 'components/Event/EventViewerDialog.vue';
 import EventContentEditor from 'components/Event/EventContentEditor.vue';
 
-import type { GSK_EVENT } from 'src/services/library/types/events';
+import { copyAndPrepareEvent, type GSK_EVENT } from 'src/services/library/types/events';
 import { type PropType, ref } from 'vue';
 import type { GSK_PROFILE } from 'src/services/library/types/profile';
 import { Notify, uid } from 'quasar';
@@ -100,8 +100,10 @@ const previewEvent = ref(false);
 const saveEventToDb = async () => {
   try {
     const uidOfElement = event.value.id || uid();
-    const eventToSave = JSON.parse(JSON.stringify(event.value));
+    const eventToSave = copyAndPrepareEvent(event.value);
     eventToSave.id = uidOfElement;
+    eventToSave.lastUpdated = new Date();
+    eventToSave.createdDate = eventToSave.createdDate || new Date(); // set createdDate only if not already set
     const id = await createOrUpdateEvent(eventToSave, props.profileDoc.id, props.isAdmin);
     await router.push({
       name: 'view',

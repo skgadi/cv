@@ -39,10 +39,10 @@ export const useEventsStore = defineStore('eventsStore', {
           // Convert Firestore Timestamp to JavaScript Date
           const convertedData = {
             ...data,
-            startDate: data.startDate ? new Date(data.startDate) : null,
-            endDate: data.endDate ? new Date(data.endDate) : null,
-            lastUpdated: data.lastUpdated ? new Date(data.lastUpdated) : null,
-            createdDate: data.createdDate ? new Date(data.createdDate) : null,
+            startDate: data?.startDate?.toDate() || new Date(),
+            endDate: data?.endDate?.toDate() || new Date(),
+            lastUpdated: data?.lastUpdated?.toDate() || new Date(),
+            createdDate: data?.createdDate?.toDate() || new Date(),
           } as GSK_EVENT;
           useEventsStore().setAvailableEvent(convertedData);
         }

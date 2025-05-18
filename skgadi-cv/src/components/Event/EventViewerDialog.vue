@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="showDialog" position="right" full-height>
-    <q-card style="min-width: 500px">
+    <q-card style="min-width: 80vw">
       <q-bar>
         <div>Preview</div>
         <q-space />
