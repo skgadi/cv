@@ -12,17 +12,17 @@ const routes: RouteRecordRaw[] = [
         name: 'profile',
       },
       {
-        path: 'view/:contentId?/:categoryId?',
+        path: 'view/:eventId?/:categoryId?/:queries?/:pageNumber?',
         component: () => import('pages/ViewPage.vue'),
         name: 'view',
       },
       {
-        path: 'edit/:contentId?/:categoryId?',
+        path: 'edit/:eventId?/:categoryId?/:queries?/:pageNumber?',
         component: () => import('pages/EditPage.vue'),
         name: 'edit',
       },
       {
-        path: 'create',
+        path: 'create/:eventId?/:categoryId?/:queries?/:pageNumber?',
         component: () => import('pages/CreatePage.vue'),
         name: 'create',
       },

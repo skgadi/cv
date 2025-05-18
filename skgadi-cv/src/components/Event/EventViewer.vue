@@ -1,6 +1,6 @@
 <template>
   <q-card-section>
-    <div style="max-width: 500px; margin: auto">
+    <div>
       <text-item :in-text="event.title" in-class="text-h5" />
       <text-item :in-text="event.description" />
       <div class="row items-center justify-evenly">

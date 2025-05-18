@@ -1,3 +1,8 @@
+export interface GSK_PROFILE_METADATA {
+  id: string;
+  uid: string;
+  name: string;
+}
 export interface GSK_PROFILE {
   id: string;
   uid: string;

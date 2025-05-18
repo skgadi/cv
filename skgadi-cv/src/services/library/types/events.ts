@@ -18,6 +18,7 @@ export interface GSK_EVENT_CONTENT {
   title: string;
   icon: string;
   description: string;
+  isPublic: boolean;
   type:
     | 'markdown'
     | 'html'

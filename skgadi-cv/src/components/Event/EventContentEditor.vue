@@ -72,6 +72,7 @@ const addContent = (isBottom: boolean) => {
   const elementToAdd: GSK_EVENT_CONTENT = {
     type: 'markdown',
     icon: 'las la-haykal',
+    isPublic: true,
     content: '',
     description: 'Caption',
     id: uid(),

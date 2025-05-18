@@ -91,6 +91,9 @@ import { type PropType, ref } from 'vue';
 import type { GSK_PROFILE } from 'src/services/library/types/profile';
 import { Notify, uid } from 'quasar';
 import { createOrUpdateEvent } from 'src/services/firebase/event-update';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const previewEvent = ref(false);
 
@@ -99,7 +102,13 @@ const saveEventToDb = async () => {
     const uidOfElement = event.value.id || uid();
     const eventToSave = JSON.parse(JSON.stringify(event.value));
     eventToSave.id = uidOfElement;
-    await createOrUpdateEvent(eventToSave, props.profileDoc.id, props.isAdmin);
+    const id = await createOrUpdateEvent(eventToSave, props.profileDoc.id, props.isAdmin);
+    await router.push({
+      name: 'view',
+      params: {
+        eventId: id,
+      },
+    });
   } catch (error) {
     Notify.create({
       type: 'negative',
