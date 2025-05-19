@@ -37,9 +37,11 @@ import { computed, ref, inject, type Ref, onMounted } from 'vue';
 import AuthButton from 'components/AuthButton.vue';
 import { getProfileDocumentSnapshot } from 'src/services/firebase/profile-document';
 import { onSnapshot, type Unsubscribe } from 'firebase/firestore';
-import type { GSK_PROFILE } from 'src/services/library/types/profile';
+import { GSK_UID, type GSK_PROFILE } from 'src/services/library/types/profile';
+//import { useQueryStore } from 'src/stores/query-store';
 
 const leftDrawerOpen = ref(false);
+//const queryStore = useQueryStore();
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -55,8 +57,6 @@ const isLoggedIn = computed(() => {
 
 const snapshotUnSubscription = ref<Unsubscribe | null>(null);
 const profileDoc = ref<GSK_PROFILE | null>(null);
-
-const GSK_UID = 'AArSiXuAWEWjDqpHqEWohgoW64A3';
 
 const loadProfileWithUid = (uid: string) => {
   //console.log('Loading profile with UID:', uid);

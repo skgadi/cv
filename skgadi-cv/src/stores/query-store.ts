@@ -6,7 +6,7 @@ import {
   limit,
   query,
   type QueryDocumentSnapshot,
-  startAfter,
+  //startAfter,
 } from 'firebase/firestore';
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { type GSK_EVENT } from 'src/services/library/types/events';
@@ -70,18 +70,23 @@ export const useQueryStore = defineStore('queryStore', {
     },
     setProfileId(profileId: string) {
       this.profileId = profileId;
+      console.log('Profile ID: ', this.profileId);
     },
     async refreshQuery() {
+      console.log('Refreshing query...');
       this.eventsList = [];
-      if (this.profileId) {
+      if (!this.profileId) {
         return;
       }
       const collectionPath = `CV/${this.profileId}/events`;
+      console.log('Collection Path: ', collectionPath);
       const q = query(
         collection(db, collectionPath),
-        startAfter(this.lastVisible),
+        //        startAfter(this.lastVisible),
         limit(this.limit),
       );
+
+      console.log('Query: ', q);
 
       const querySnapshot = await getDocs(q);
       const newResults: GSK_EVENT[] = [];

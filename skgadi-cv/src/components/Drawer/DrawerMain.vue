@@ -19,10 +19,23 @@
         <q-icon name="search" />
       </template>
     </q-input>
+    <q-list bordered separator v-if="queryStore.eventsList.length > 0 && profileDoc">
+      <template v-for="event in queryStore.eventsList" :key="event.id">
+        <q-item clickable v-ripple :to="{ name: 'view', params: { eventId: event.id } }">
+          <q-item-section>
+            <q-item-label>{{ event.title }}</q-item-label>
+            <q-item-label caption>{{ event.description }}</q-item-label>
+            <q-item-label>
+              <display-category-from-ids v-model="event.categories" :profile-doc="profileDoc" />
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+      </template>
+    </q-list>
   </div>
 </template>
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   profileDoc: GSK_PROFILE | null;
   isAdmin: boolean;
 }>();
@@ -30,7 +43,27 @@ defineProps<{
 import { type GSK_PROFILE } from 'src/services/library/types/profile';
 
 import CategoryButton from 'components/Category/CategoryButton.vue';
+import { onMounted, ref, watch } from 'vue';
+//import { useRoute } from 'vue-router';
+import { useQueryStore } from 'src/stores/query-store';
+import DisplayCategoryFromIds from 'components/Category/DisplayCategoriesFromIds.vue';
 
-import { ref } from 'vue';
 const query = ref('');
+//const route = useRoute();
+const queryStore = useQueryStore();
+
+onMounted(() => {
+  queryStore.setProfileId(props.profileDoc?.id || '');
+  void queryStore.refreshQuery();
+});
+
+watch(
+  () => [query.value, props.profileDoc?.id],
+
+  () => {
+    queryStore.setQueryText(query.value);
+    queryStore.setProfileId(props.profileDoc?.id || '');
+    void queryStore.refreshQuery();
+  },
+);
 </script>

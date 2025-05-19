@@ -2,6 +2,7 @@ export interface GSK_EVENT {
   id: string;
   title: string;
   description: string;
+  searchableText: string;
   startDate: Date;
   endDate: Date;
   lastUpdated: Date;

@@ -48,3 +48,5 @@ export interface GSK_PROFILE_AFFILIATION {
   department: string;
   position: string;
 }
+
+export const GSK_UID = 'AArSiXuAWEWjDqpHqEWohgoW64A3';

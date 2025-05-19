@@ -104,6 +104,7 @@ const saveEventToDb = async () => {
     eventToSave.id = uidOfElement;
     eventToSave.lastUpdated = new Date();
     eventToSave.createdDate = eventToSave.createdDate || new Date(); // set createdDate only if not already set
+    eventToSave.searchableText = (eventToSave.title + ' ' + eventToSave.description).toLowerCase();
     const id = await createOrUpdateEvent(eventToSave, props.profileDoc.id, props.isAdmin);
     await router.push({
       name: 'view',
