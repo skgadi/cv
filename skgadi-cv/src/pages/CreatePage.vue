@@ -38,7 +38,7 @@ const event: Ref<GSK_EVENT> = ref({
   id: '',
   title: '',
   description: '',
-  searchableText: '',
+  searchableText: [],
   categories: [],
   content: [],
   isFeatured: false,

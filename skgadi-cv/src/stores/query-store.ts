@@ -5,7 +5,10 @@ import {
   getFirestore,
   limit,
   query,
+  type QueryConstraint,
   type QueryDocumentSnapshot,
+  startAfter,
+  where,
   //startAfter,
 } from 'firebase/firestore';
 import { defineStore, acceptHMRUpdate } from 'pinia';
@@ -57,7 +60,8 @@ export const useQueryStore = defineStore('queryStore', {
       this.eventsList = events;
     },
     setQueryText(query: string) {
-      this.queryText = query;
+      console.log('Query Text: ', query);
+      this.queryText = query?.toLocaleLowerCase() || '';
     },
     setLimit(limit: number) {
       this.limit = limit;
@@ -73,18 +77,22 @@ export const useQueryStore = defineStore('queryStore', {
       console.log('Profile ID: ', this.profileId);
     },
     async refreshQuery() {
-      console.log('Refreshing query...');
       this.eventsList = [];
       if (!this.profileId) {
         return;
       }
       const collectionPath = `CV/${this.profileId}/events`;
-      console.log('Collection Path: ', collectionPath);
-      const q = query(
-        collection(db, collectionPath),
-        //        startAfter(this.lastVisible),
-        limit(this.limit),
-      );
+
+      const queryParams: QueryConstraint[] = [];
+      if (this.queryText) {
+        queryParams.push(where('searchableText', 'array-contains-any', this.queryText.split(' ')));
+      }
+      if (this.lastVisible) {
+        queryParams.push(startAfter(this.lastVisible));
+      }
+      queryParams.push(limit(this.limit));
+      console.log('Query Params: ', queryParams);
+      const q = query(collection(db, collectionPath), ...queryParams);
 
       console.log('Query: ', q);
 

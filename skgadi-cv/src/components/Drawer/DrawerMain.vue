@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-input
-      v-model="query"
+      v-model="tempQuery"
       label="Search"
       outlined
       rounded
@@ -10,6 +10,12 @@
       :autofocus="true"
       placeholder="Type your query here..."
       :clearable="true"
+      @blur="query = tempQuery"
+      @keyup.enter="query = tempQuery"
+      @keyup.esc="
+        tempQuery = '';
+        query = '';
+      "
     >
       <template #after>
         <category-button :categories="profileDoc?.categories" :is-admin="isAdmin" />
@@ -48,6 +54,7 @@ import { onMounted, ref, watch } from 'vue';
 import { useQueryStore } from 'src/stores/query-store';
 import DisplayCategoryFromIds from 'components/Category/DisplayCategoriesFromIds.vue';
 
+const tempQuery = ref('');
 const query = ref('');
 //const route = useRoute();
 const queryStore = useQueryStore();
@@ -61,6 +68,7 @@ watch(
   () => [query.value, props.profileDoc?.id],
 
   () => {
+    queryStore.setLastVisible(null);
     queryStore.setQueryText(query.value);
     queryStore.setProfileId(props.profileDoc?.id || '');
     void queryStore.refreshQuery();

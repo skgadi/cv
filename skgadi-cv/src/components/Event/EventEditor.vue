@@ -92,6 +92,7 @@ import type { GSK_PROFILE } from 'src/services/library/types/profile';
 import { Notify, uid } from 'quasar';
 import { createOrUpdateEvent } from 'src/services/firebase/event-update';
 import { useRouter } from 'vue-router';
+import { generateNGrams } from 'src/services/generic/utils';
 
 const router = useRouter();
 
@@ -104,7 +105,9 @@ const saveEventToDb = async () => {
     eventToSave.id = uidOfElement;
     eventToSave.lastUpdated = new Date();
     eventToSave.createdDate = eventToSave.createdDate || new Date(); // set createdDate only if not already set
-    eventToSave.searchableText = (eventToSave.title + ' ' + eventToSave.description).toLowerCase();
+    const titleNGrams = generateNGrams(eventToSave.title);
+    const descriptionNGrams = generateNGrams(eventToSave.description);
+    eventToSave.searchableText = [...titleNGrams, ...descriptionNGrams];
     const id = await createOrUpdateEvent(eventToSave, props.profileDoc.id, props.isAdmin);
     await router.push({
       name: 'view',
