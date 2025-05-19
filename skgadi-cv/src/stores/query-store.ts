@@ -60,7 +60,7 @@ export const useQueryStore = defineStore('queryStore', {
       this.eventsList = events;
     },
     setQueryText(query: string) {
-      console.log('Query Text: ', query);
+      //console.log('Query Text: ', query);
       this.queryText = query?.toLocaleLowerCase() || '';
     },
     setLimit(limit: number) {
@@ -74,7 +74,7 @@ export const useQueryStore = defineStore('queryStore', {
     },
     setProfileId(profileId: string) {
       this.profileId = profileId;
-      console.log('Profile ID: ', this.profileId);
+      //console.log('Profile ID: ', this.profileId);
     },
     async refreshQuery() {
       this.eventsList = [];
@@ -91,10 +91,10 @@ export const useQueryStore = defineStore('queryStore', {
         queryParams.push(startAfter(this.lastVisible));
       }
       queryParams.push(limit(this.limit));
-      console.log('Query Params: ', queryParams);
+      //console.log('Query Params: ', queryParams);
       const q = query(collection(db, collectionPath), ...queryParams);
 
-      console.log('Query: ', q);
+      //console.log('Query: ', q);
 
       const querySnapshot = await getDocs(q);
       const newResults: GSK_EVENT[] = [];
